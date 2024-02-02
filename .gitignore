@@ -1,0 +1,15 @@
+!**/rtl
+!**/tb
+!**/waveforms
+!**/includes
+!**/not_project_files
+
+*.wdf
+*.xml
+*.lpr
+elaborate.txt
+*.bat
+*.tcl
+*.log
+*.pb
+*.jou
