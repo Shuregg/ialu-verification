@@ -26,7 +26,7 @@ module tb_scr1_pipe_ialu ();
         logic                       [`SCR1_XLEN-1:0]    op2;
         logic                       [`SCR1_XLEN-1:0]    reference_result;
         type_scr1_ialu_cmd_sel_e                        opcode;
-
+//        type_scr1_ialu_flags_s                          reference_flags;
     } st_data_for_testing;
 
     st_data_for_testing data_tmp;
@@ -51,7 +51,7 @@ module tb_scr1_pipe_ialu ();
 
     // ============ Parameters ============
     parameter PERIOD            = 20;
-    parameter NUM_OF_DUMPLINES  = 201;
+    parameter NUM_OF_DUMPLINES  = 203;
     parameter NUM_OF_RANDLINES  = 1000;
     // ============ Integers ============
     integer i                   = 0;
@@ -83,8 +83,7 @@ module tb_scr1_pipe_ialu ();
         test1_done          = 0;
         all_tests_done      = 0;
         mdu_opcode_valid    = 0;
-        mdu_result_ready    = 0;
-        #(PERIOD); rst_n    = 1;
+        #(PERIOD/2); rst_n    = 1;
     end
 
     // ============ Timeout ============
@@ -98,10 +97,10 @@ module tb_scr1_pipe_ialu ();
         wait(rst_n);
         for(i = 0; i < NUM_OF_DUMPLINES; i = i + 1) begin
             @(posedge clk);
-            op1         = op1_arr[i];
-            op2         = op2_arr[i];
-            ref_result  = ref_result_arr[i];
-
+            op1         <= op1_arr[i];
+            op2         <= op2_arr[i];
+            opcode      <= opcode_arr[i];
+            ref_result  <= ref_result_arr[i];
             case(opcode) 
                 SCR1_IALU_CMD_ADD, 
                 SCR1_IALU_CMD_SUB: begin
@@ -110,12 +109,12 @@ module tb_scr1_pipe_ialu ();
                         result_error_display();
                     end
                 end
-
+                'X:         $display("\ni=%0d, t=%0t, Operation is undefined (XXX)", i, $time());
                 default:    $display("\ni=%0d, t=%0t, Not ADD or SUB operation: %s", i, $time(), operation_type);
             endcase
         end
-        $display( "\n\nTest #1 is completed - number of errors: %0d\n\n==========================\nClick the button 'Run All' to continue other test\n==========================\n", error_counter); $stop();
         test1_done = 1;
+        $display( "\n\nTest #1 is completed! Number of errors: %0d\n\n==========================\nClick the button 'Run All' to continue other test\n==========================\n", error_counter); $stop();
 
     end
 //    // ============ Test #2: comparing the results using random operands ============
@@ -129,41 +128,41 @@ module tb_scr1_pipe_ialu ();
     
 
     function void result_error_display;
-        $error("\nInvalid result #%0d\nTime: %0t; Res.: %0h; Exp.: %0h; Operation: %s", error_counter, $time(), result, ref_result, operation_type);
+        $error("Invalid result #%0d\nTime: %0t; Res.: %0h; Exp.: %0h; Operation: %s\n=============================================================================", error_counter, $time(), result, ref_result, operation_type);
     endfunction
 
     // ============ Current operation (string to display) ============
     always@(*) begin
         case(opcode)
-            SCR1_IALU_CMD_NONE:     operation_type = "NOP    ";
-            SCR1_IALU_CMD_AND:      operation_type = "ADD    ";
-            SCR1_IALU_CMD_OR:       operation_type = "OR     ";
-            SCR1_IALU_CMD_XOR:      operation_type = "XOR    ";
-            SCR1_IALU_CMD_ADD:      operation_type = "ADD    ";
-            SCR1_IALU_CMD_SUB:      operation_type = "SUB    ";
-            SCR1_IALU_CMD_SUB_LT:   operation_type = "SUB_LT ";
-            SCR1_IALU_CMD_SUB_LTU:  operation_type = "SUB_LTU";
-            SCR1_IALU_CMD_SUB_EQ:   operation_type = "SUB_EQ ";
-            SCR1_IALU_CMD_SUB_NE:   operation_type = "SUB_NE ";
-            SCR1_IALU_CMD_SUB_GE:   operation_type = "SUB_GE ";
-            SCR1_IALU_CMD_SUB_GEU:  operation_type = "SUB_GEU"; 
-            SCR1_IALU_CMD_SLL:      operation_type = "SLL    ";
-            SCR1_IALU_CMD_SRL:      operation_type = "SRL    ";
-            SCR1_IALU_CMD_SRA:      operation_type = "SRA    ";
-            SCR1_IALU_CMD_MUL:      operation_type = "MUL    ";
-            SCR1_IALU_CMD_MULHU:    operation_type = "MULHU  ";
-            SCR1_IALU_CMD_MULHSU:   operation_type = "MULHSU ";
-            SCR1_IALU_CMD_MULH:     operation_type = "MULH   ";
-            SCR1_IALU_CMD_DIV:      operation_type = "DIV    ";
-            SCR1_IALU_CMD_DIVU:     operation_type = "DIVU   ";
-            SCR1_IALU_CMD_REM:      operation_type = "REM    ";
-            SCR1_IALU_CMD_REMU:     operation_type = "REMU   ";
-            default:                operation_type = "???????";
+            SCR1_IALU_CMD_NONE:     operation_type <= "NOP    ";
+            SCR1_IALU_CMD_AND:      operation_type <= "AND    ";
+            SCR1_IALU_CMD_OR:       operation_type <= "OR     ";
+            SCR1_IALU_CMD_XOR:      operation_type <= "XOR    ";
+            SCR1_IALU_CMD_ADD:      operation_type <= "ADD    ";
+            SCR1_IALU_CMD_SUB:      operation_type <= "SUB    ";
+            SCR1_IALU_CMD_SUB_LT:   operation_type <= "SUB_LT ";
+            SCR1_IALU_CMD_SUB_LTU:  operation_type <= "SUB_LTU";
+            SCR1_IALU_CMD_SUB_EQ:   operation_type <= "SUB_EQ ";
+            SCR1_IALU_CMD_SUB_NE:   operation_type <= "SUB_NE ";
+            SCR1_IALU_CMD_SUB_GE:   operation_type <= "SUB_GE ";
+            SCR1_IALU_CMD_SUB_GEU:  operation_type <= "SUB_GEU"; 
+            SCR1_IALU_CMD_SLL:      operation_type <= "SLL    ";
+            SCR1_IALU_CMD_SRL:      operation_type <= "SRL    ";
+            SCR1_IALU_CMD_SRA:      operation_type <= "SRA    ";
+            SCR1_IALU_CMD_MUL:      operation_type <= "MUL    ";
+            SCR1_IALU_CMD_MULHU:    operation_type <= "MULHU  ";
+            SCR1_IALU_CMD_MULHSU:   operation_type <= "MULHSU ";
+            SCR1_IALU_CMD_MULH:     operation_type <= "MULH   ";
+            SCR1_IALU_CMD_DIV:      operation_type <= "DIV    ";
+            SCR1_IALU_CMD_DIVU:     operation_type <= "DIVU   ";
+            SCR1_IALU_CMD_REM:      operation_type <= "REM    ";
+            SCR1_IALU_CMD_REMU:     operation_type <= "REMU   ";
+            default:                operation_type <= "???????";
         endcase
     end
 
     assign op1_arr = {
-        32'hb93f376c, // additional
+        32'hb93f376c, // additional XOR
         32'hb93f376c,
         32'h2c46cd19,
         32'h1c4c58c9,
@@ -265,7 +264,6 @@ module tb_scr1_pipe_ialu ();
         32'h0db666b3,
         32'h8bf499ff,
         // 2nd hundread started
-        32'hec777044, // additional
         32'hec777044,
         32'hda669c82,
         32'h38b990e3,
@@ -365,10 +363,13 @@ module tb_scr1_pipe_ialu ();
         32'hdbd0559f,
         32'heed3e934,
         32'h72743016,
-        32'h41a28951
+        32'h41a28951,
+        32'h41a28951, // additional AND
+        32'hX
     };
 
     assign op2_arr = {
+        32'hd21ebc2c, // additional XOR
         32'hd21ebc2c,
         32'h7b102e19,
         32'h7bdbb80a,
@@ -569,11 +570,13 @@ module tb_scr1_pipe_ialu ();
         32'hbccd2e75,
         32'h2f7603a5,
         32'h372e50aa,
-        32'hd26d9b03
+        32'hd26d9b03,
+        32'hd26d9b03, // additional AND
+        32'hX
     };
 
     assign ref_result_arr = {
-        32'h8b5df398, // additional
+        32'h8b5df398, // additional XOR
         32'h8b5df398,
         32'ha756fb32,
         32'h982810d3,
@@ -774,11 +777,13 @@ module tb_scr1_pipe_ialu ();
         32'h1f03272a,
         32'hbf5de58f,
         32'h3b45df6c,
-        32'h6f34ee4e
+        32'h6f34ee4e,
+        32'h40208901, // additional AND
+        32'hX
     };
 
     assign opcode_arr = {
-        SCR1_IALU_CMD_XOR, // additional
+        SCR1_IALU_CMD_XOR, // additional XOR
         SCR1_IALU_CMD_ADD,
         SCR1_IALU_CMD_ADD,
         SCR1_IALU_CMD_ADD,
@@ -979,6 +984,8 @@ module tb_scr1_pipe_ialu ();
         SCR1_IALU_CMD_SUB,
         SCR1_IALU_CMD_SUB,
         SCR1_IALU_CMD_SUB,
-        SCR1_IALU_CMD_SUB
+        SCR1_IALU_CMD_SUB,
+        SCR1_IALU_CMD_AND, // additional AND
+        SCR1_IALU_CMD_NONE
     };
 endmodule
