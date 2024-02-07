@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="tb_scr1_pipe_ialu_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="\$unit_scr1_pipe_ialu_sv " />
+            <top_module name="glbl" />
+            <top_module name="tb_scr1_pipe_ialu" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="3945932fs"></ZoomStartTime>
+      <ZoomEndTime time="4202333fs"></ZoomEndTime>
+      <Cursor1Time time="4182532fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="175"></NameColumnWidth>
+      <ValueColumnWidth column_width="145"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="26" />
+   <wvobject fp_name="/tb_scr1_pipe_ialu/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_scr1_pipe_ialu/rst_n" type="logic">
+      <obj_property name="ElementShortName">rst_n</obj_property>
+      <obj_property name="ObjectShortName">rst_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_scr1_pipe_ialu/mdu_opcode_valid" type="logic">
+      <obj_property name="ElementShortName">mdu_opcode_valid</obj_property>
+      <obj_property name="ObjectShortName">mdu_opcode_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_scr1_pipe_ialu/mdu_result_ready" type="logic">
+      <obj_property name="ElementShortName">mdu_result_ready</obj_property>
+      <obj_property name="ObjectShortName">mdu_result_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_scr1_pipe_ialu/op1" type="array">
+      <obj_property name="ElementShortName">op1[31:0]</obj_property>
+      <obj_property name="ObjectShortName">op1[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_scr1_pipe_ialu/op2" type="array">
+      <obj_property name="ElementShortName">op2[31:0]</obj_property>
+      <obj_property name="ObjectShortName">op2[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_scr1_pipe_ialu/opcode" type="array">
+      <obj_property name="ElementShortName">opcode[4:0]</obj_property>
+      <obj_property name="ObjectShortName">opcode[4:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_scr1_pipe_ialu/result" type="array">
+      <obj_property name="ElementShortName">result[31:0]</obj_property>
+      <obj_property name="ObjectShortName">result[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_scr1_pipe_ialu/ref_result" type="array">
+      <obj_property name="ElementShortName">ref_result[31:0]</obj_property>
+      <obj_property name="ObjectShortName">ref_result[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_scr1_pipe_ialu/flag" type="logic">
+      <obj_property name="ElementShortName">flag</obj_property>
+      <obj_property name="ObjectShortName">flag</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_scr1_pipe_ialu/addr_op1" type="array">
+      <obj_property name="ElementShortName">addr_op1[31:0]</obj_property>
+      <obj_property name="ObjectShortName">addr_op1[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_scr1_pipe_ialu/addr_op2" type="array">
+      <obj_property name="ElementShortName">addr_op2[31:0]</obj_property>
+      <obj_property name="ObjectShortName">addr_op2[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_scr1_pipe_ialu/addr_result" type="array">
+      <obj_property name="ElementShortName">addr_result[31:0]</obj_property>
+      <obj_property name="ObjectShortName">addr_result[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_scr1_pipe_ialu/data_tmp" type="array">
+      <obj_property name="ElementShortName">data_tmp</obj_property>
+      <obj_property name="ObjectShortName">data_tmp</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_scr1_pipe_ialu/i" type="array">
+      <obj_property name="ElementShortName">i[31:0]</obj_property>
+      <obj_property name="ObjectShortName">i[31:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FFFF00</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_scr1_pipe_ialu/error_counter" type="array">
+      <obj_property name="ElementShortName">error_counter[31:0]</obj_property>
+      <obj_property name="ObjectShortName">error_counter[31:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FFA500</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_scr1_pipe_ialu/test1_done" type="logic">
+      <obj_property name="ElementShortName">test1_done</obj_property>
+      <obj_property name="ObjectShortName">test1_done</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_scr1_pipe_ialu/all_tests_done" type="logic">
+      <obj_property name="ElementShortName">all_tests_done</obj_property>
+      <obj_property name="ObjectShortName">all_tests_done</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_scr1_pipe_ialu/operation_type" type="array">
+      <obj_property name="ElementShortName">operation_type[55:0]</obj_property>
+      <obj_property name="ObjectShortName">operation_type[55:0]</obj_property>
+      <obj_property name="Radix">ASCIIRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_scr1_pipe_ialu/op1_arr" type="array">
+      <obj_property name="ElementShortName">op1_arr[0:202][31:0]</obj_property>
+      <obj_property name="ObjectShortName">op1_arr[0:202][31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_scr1_pipe_ialu/op2_arr" type="array">
+      <obj_property name="ElementShortName">op2_arr[0:202][31:0]</obj_property>
+      <obj_property name="ObjectShortName">op2_arr[0:202][31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_scr1_pipe_ialu/ref_result_arr" type="array">
+      <obj_property name="ElementShortName">ref_result_arr[0:202][31:0]</obj_property>
+      <obj_property name="ObjectShortName">ref_result_arr[0:202][31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_scr1_pipe_ialu/opcode_arr" type="array">
+      <obj_property name="ElementShortName">opcode_arr[0:202][4:0]</obj_property>
+      <obj_property name="ObjectShortName">opcode_arr[0:202][4:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_scr1_pipe_ialu/PERIOD" type="array">
+      <obj_property name="ElementShortName">PERIOD[31:0]</obj_property>
+      <obj_property name="ObjectShortName">PERIOD[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_scr1_pipe_ialu/NUM_OF_DUMPLINES" type="array">
+      <obj_property name="ElementShortName">NUM_OF_DUMPLINES[31:0]</obj_property>
+      <obj_property name="ObjectShortName">NUM_OF_DUMPLINES[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_scr1_pipe_ialu/NUM_OF_RANDLINES" type="array">
+      <obj_property name="ElementShortName">NUM_OF_RANDLINES[31:0]</obj_property>
+      <obj_property name="ObjectShortName">NUM_OF_RANDLINES[31:0]</obj_property>
+   </wvobject>
+</wave_config>
