@@ -52,7 +52,7 @@ module tb_scr1_pipe_ialu ();
     // ============ Parameters ============
     parameter PERIOD            = 20;
     parameter NUM_OF_DUMPLINES  = 203;
-    parameter NUM_OF_RANDLINES  = 1000;
+    parameter NUM_OF_RANDLINES  = 15;
     // ============ Integers ============
     integer i                   = 0;
     integer error_counter       = 0;
@@ -60,7 +60,7 @@ module tb_scr1_pipe_ialu ();
     logic                                           test1_done;
     logic                                           all_tests_done;
     logic                       [(7*8)-1:0]         operation_type;
-    // $urandom(6043);
+
 
     // Data arrays
     logic                       [`SCR1_XLEN-1:0]    op1_arr         [0:NUM_OF_DUMPLINES-1];
@@ -78,58 +78,86 @@ module tb_scr1_pipe_ialu ();
    end
 
     // ============ Global reset ============
-    initial begin
-        rst_n               = 0;
-        test1_done          = 0;
-        all_tests_done      = 0;
-        mdu_opcode_valid    = 0;
-        #(PERIOD/2); rst_n    = 1;
-    end
-
+    task greset();
+        begin
+            rst_n               = 0;
+            mdu_opcode_valid    = 0;
+            #(PERIOD/2); rst_n  = 1;
+        end
+    endtask
+    
     // ============ Timeout ============
     initial begin
-        repeat(100000) @(posedge clk);
+        repeat(300000) @(posedge clk);
         $display("Simulation stopped by watchdog timer."); $stop();
     end
 
     // ============ Test #1: comparing the result with reference values ============
     initial begin
+        test1_done          <= 0;
+        all_tests_done      <= 0;
+        greset();
         wait(rst_n);
+        $display("============ Test #1: comparing the result with reference values ============");
         for(i = 0; i < NUM_OF_DUMPLINES; i = i + 1) begin
             @(posedge clk);
             op1         <= op1_arr[i];
             op2         <= op2_arr[i];
             opcode      <= opcode_arr[i];
             ref_result  <= ref_result_arr[i];
+            @(negedge clk); result_compare_handler();
+        end
+        @(posedge clk);
+        test1_done <= 1;
+        $display( "\n\nTest #1 is completed! Number of errors: %0d\n\n==========================\nClick the button 'Run All' to continue other test\n==========================\n", error_counter); $stop();
+    end
+    
+   // ============ Test #2: comparing the results using random operands ============
+    initial begin
+//    greset();
+//    wait(rst_n);
+    wait(test1_done);
+        $display("============ Test #2: comparing the results using random operands ============");
+        $srandom(322);
+        for(i = 0; i < NUM_OF_RANDLINES; i = i + 1) begin
+            @(posedge clk);
+
+            case($urandom_range(0, 1))
+                1'b0: begin
+                    op1         = $urandom();
+                    op2         = $urandom();
+                    opcode      = SCR1_IALU_CMD_ADD;
+                    ref_result  = op1 + op2;
+                end
+                1'b1: begin
+                    op1         = $urandom();
+                    op2         = $urandom();
+                    opcode      = SCR1_IALU_CMD_SUB;
+                    ref_result  = op1 - op2;
+                end
+            endcase
+            @(negedge clk); result_compare_handler();
+        end
+    end
+
+    function void result_error_handler;
+        error_counter = error_counter + 1;
+        $error("Invalid result #%0d\nTime: %0t; Op.1: %0h, Op.2: %0h, Res.: %0h; Exp.: %0h; Operation: %s\n=============================================================================", error_counter, $time(), op1, op2, result, ref_result, operation_type);
+    endfunction
+
+    function void result_compare_handler;
             case(opcode) 
                 SCR1_IALU_CMD_ADD, 
                 SCR1_IALU_CMD_SUB: begin
                     if((ref_result !== result)) begin
-                        error_counter = error_counter + 1;
-                        result_error_display();
+                        result_error_handler();
                     end
                 end
                 'X:         $display("\ni=%0d, t=%0t, Operation is undefined (XXX)", i, $time());
                 default:    $display("\ni=%0d, t=%0t, Not ADD or SUB operation: %s", i, $time(), operation_type);
             endcase
-        end
-        test1_done = 1;
-        $display( "\n\nTest #1 is completed! Number of errors: %0d\n\n==========================\nClick the button 'Run All' to continue other test\n==========================\n", error_counter); $stop();
-
-    end
-//    // ============ Test #2: comparing the results using random operands ============
-//    initial begin
-//        wait(test1_done);
-//        for(i = 0; i < NUM_OF_RANDLINES; i = i + 1) begin
-
-//        end
-//    end
-
-    
-
-    function void result_error_display;
-        $error("Invalid result #%0d\nTime: %0t; Res.: %0h; Exp.: %0h; Operation: %s\n=============================================================================", error_counter, $time(), result, ref_result, operation_type);
     endfunction
+
 
     // ============ Current operation (string to display) ============
     always@(*) begin
@@ -365,7 +393,7 @@ module tb_scr1_pipe_ialu ();
         32'h72743016,
         32'h41a28951,
         32'h41a28951, // additional AND
-        32'hX
+        32'h7a57e_0f
     };
 
     assign op2_arr = {
@@ -572,11 +600,11 @@ module tb_scr1_pipe_ialu ();
         32'h372e50aa,
         32'hd26d9b03,
         32'hd26d9b03, // additional AND
-        32'hX
+        32'hfa15e_00
     };
 
     assign ref_result_arr = {
-        32'h8b5df398, // additional XOR
+        32'hDEAD_BEEF, // additional XOR
         32'h8b5df398,
         32'ha756fb32,
         32'h982810d3,
@@ -779,7 +807,7 @@ module tb_scr1_pipe_ialu ();
         32'h3b45df6c,
         32'h6f34ee4e,
         32'h40208901, // additional AND
-        32'hX
+        32'h0
     };
 
     assign opcode_arr = {
