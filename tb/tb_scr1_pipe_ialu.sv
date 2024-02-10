@@ -13,7 +13,7 @@ module tb_scr1_pipe_ialu ();
     logic                       [`SCR1_XLEN-1:0]        op2;
     type_scr1_ialu_cmd_sel_e                            opcode;
     logic                       [`SCR1_XLEN-1:0]        result;
-    logic                                               flag;
+//    logic                                               flag;
 
     logic                       [`SCR1_XLEN-1:0]        addr_op1;      
     logic                       [`SCR1_XLEN-1:0]        addr_op2;
@@ -26,48 +26,47 @@ module tb_scr1_pipe_ialu ();
         logic                       [`SCR1_XLEN-1:0]    op2;
         logic                       [`SCR1_XLEN-1:0]    reference_result;
         type_scr1_ialu_cmd_sel_e                        opcode;
-//        type_scr1_ialu_flags_s                          reference_flags;
     } st_data_for_testing;
 
     st_data_for_testing data_tmp;
 
     //ALU instance
     scr1_pipe_ialu DUT(
-    .clk                   (clk),                         // IALU clock
-    .rst_n                 (rst_n),                       // IALU reset
-    .exu2ialu_rvm_cmd_vd_i (mdu_opcode_valid),            // MUL/DIV command valid
-    .ialu2exu_rvm_res_rdy_o(mdu_result_ready),            // MUL/DIV result ready
-    
-    .exu2ialu_main_op1_i   (op1),                         // main ALU 1st operand
-    .exu2ialu_main_op2_i   (op2),                         // main ALU 2nd operand
-    .exu2ialu_cmd_i        (opcode),                      // IALU command
-    .ialu2exu_main_res_o   (result),                      // main ALU result
-    .ialu2exu_cmp_res_o    (flag),                        // IALU comparison result
-
-    .exu2ialu_addr_op1_i   (addr_op1),                    // Address adder 1st operand
-    .exu2ialu_addr_op2_i   (addr_op2),                    // Address adder 2nd operand
-    .ialu2exu_addr_res_o   (addr_result)                  // Address adder result
-    );
+    .clk                   (clk),                                                               // IALU clock
+    .rst_n                 (rst_n),                                                             // IALU reset
+    .exu2ialu_rvm_cmd_vd_i (mdu_opcode_valid),                                                  // MUL/DIV command valid
+    .ialu2exu_rvm_res_rdy_o(mdu_result_ready),                                                  // MUL/DIV result ready
+                                            
+    .exu2ialu_main_op1_i   (op1),                                                               // main ALU 1st operand
+    .exu2ialu_main_op2_i   (op2),                                                               // main ALU 2nd operand
+    .exu2ialu_cmd_i        (opcode),                                                            // IALU command
+    .ialu2exu_main_res_o   (result),                                                            // main ALU result
+    .ialu2exu_cmp_res_o    (flag),                                                              // IALU comparison result
+                                        
+    .exu2ialu_addr_op1_i   (addr_op1),                                                          // Address adder 1st operand
+    .exu2ialu_addr_op2_i   (addr_op2),                                                          // Address adder 2nd operand
+    .ialu2exu_addr_res_o   (addr_result)                                                        // Address adder result
+    );                                      
 
     // ============ Parameters ============
-    parameter PERIOD            = 20;
-    parameter NUM_OF_DUMPLINES  = 203;
-    parameter NUM_OF_RANDLINES  = 15;
+    parameter PERIOD            = 20;                                                           // Clock period
+    parameter NUM_OF_DUMPLINES  = 203;                                                          // Number of tests with reference data values
+    parameter NUM_OF_RANDLINES  = 100000;                                                       // Nubmer of tests with random data values
+    parameter RND_SEED          = 322;                                                          // Seed of random generation. Change it to test your devise with different values
     // ============ Integers ============
-    integer i                   = 0;
-    integer error_counter       = 0;
+    integer i                   = 0;                                                            // Cycle iterator
+    integer error_counter       = 0;        
     // ============ Logic signals ============
-    logic                                           test1_done;
-    logic                                           all_tests_done;
-    logic                       [(7*8)-1:0]         operation_type;
+    logic                                           test1_done;                                 // "Test 1 is completed" Flag
+    logic                                           test2_done;                                 // "Test 2 is completed" Flag
+    logic                       [(7*8)-1:0]         operation_type;                             // Operation string to display
 
 
-    // Data arrays
-    logic                       [`SCR1_XLEN-1:0]    op1_arr         [0:NUM_OF_DUMPLINES-1];
-    logic                       [`SCR1_XLEN-1:0]    op2_arr         [0:NUM_OF_DUMPLINES-1];
-    logic                       [`SCR1_XLEN-1:0]    ref_result_arr  [0:NUM_OF_DUMPLINES-1];
-    type_scr1_ialu_cmd_sel_e                        opcode_arr      [0:NUM_OF_DUMPLINES-1];
-    // type_scr1_ialu_flags_s                          ref_flags_arr   [0:NUM_OF_DUMPLINES-1];
+    // Data arrays for Test #1
+    logic                       [`SCR1_XLEN-1:0]    op1_arr         [0:NUM_OF_DUMPLINES-1];     // Array of first operands
+    logic                       [`SCR1_XLEN-1:0]    op2_arr         [0:NUM_OF_DUMPLINES-1];     // Array of seconds operands
+    logic                       [`SCR1_XLEN-1:0]    ref_result_arr  [0:NUM_OF_DUMPLINES-1];     // Array of expected (reference) result
+    type_scr1_ialu_cmd_sel_e                        opcode_arr      [0:NUM_OF_DUMPLINES-1];     // Array of operation codes
 
     // ============ Clock init ============
    initial begin
@@ -80,6 +79,8 @@ module tb_scr1_pipe_ialu ();
     // ============ Global reset ============
     task greset();
         begin
+            test1_done  <= 0;
+            test2_done  <= 0;
             rst_n               = 0;
             mdu_opcode_valid    = 0;
             #(PERIOD/2); rst_n  = 1;
@@ -92,53 +93,71 @@ module tb_scr1_pipe_ialu ();
         $display("Simulation stopped by watchdog timer."); $stop();
     end
 
-    // ============ Test #1: comparing the result with reference values ============
+    // ============ Main initial block ============
     initial begin
-        test1_done          <= 0;
-        all_tests_done      <= 0;
         greset();
-        wait(rst_n);
-        $display("============ Test #1: comparing the result with reference values ============");
-        for(i = 0; i < NUM_OF_DUMPLINES; i = i + 1) begin
-            @(posedge clk);
-            op1         <= op1_arr[i];
-            op2         <= op2_arr[i];
-            opcode      <= opcode_arr[i];
-            ref_result  <= ref_result_arr[i];
-            @(negedge clk); result_compare_handler();
+        test1();
+        test2(NUM_OF_RANDLINES);
+        wait(test1_done & test2_done);
+        if(error_counter == 0) begin
+            $display("SUCCESS! The ADD and SUB operations work correctly!");
+            $finish();
         end
-        @(posedge clk);
-        test1_done <= 1;
-        $display( "\n\nTest #1 is completed! Number of errors: %0d\n\n==========================\nClick the button 'Run All' to continue other test\n==========================\n", error_counter); $stop();
+        else begin
+            $display("FAILURE! Something is not working correctly. Check the console for more information.");
+            $finish();
+        end
     end
     
-   // ============ Test #2: comparing the results using random operands ============
-    initial begin
-//    greset();
-//    wait(rst_n);
-    wait(test1_done);
-        $display("============ Test #2: comparing the results using random operands ============");
-        $srandom(322);
-        for(i = 0; i < NUM_OF_RANDLINES; i = i + 1) begin
+    // ============ Test #1: comparing the result with reference values ============
+    task test1 ();
+        begin
+            wait(rst_n);
+            $display("============ Test #1: comparing the result with reference values ============");
+            for(i = 0; i < NUM_OF_DUMPLINES; i = i + 1) begin
+                @(posedge clk);
+                op1         <= op1_arr[i];
+                op2         <= op2_arr[i];
+                opcode      <= opcode_arr[i];
+                ref_result  <= ref_result_arr[i];
+                @(negedge clk); result_compare_handler();
+            end
             @(posedge clk);
-
-            case($urandom_range(0, 1))
-                1'b0: begin
-                    op1         = $urandom();
-                    op2         = $urandom();
-                    opcode      = SCR1_IALU_CMD_ADD;
-                    ref_result  = op1 + op2;
-                end
-                1'b1: begin
-                    op1         = $urandom();
-                    op2         = $urandom();
-                    opcode      = SCR1_IALU_CMD_SUB;
-                    ref_result  = op1 - op2;
-                end
-            endcase
-            @(negedge clk); result_compare_handler();
+            test1_done <= 1;
+            $display( "\n\nTest #1 is completed! Number of errors: %0d\n\n====================================================\nClick the button 'Run All' to start other test\n==========================\n", error_counter); $stop();
         end
-    end
+    endtask
+    
+   // ============ Test #2: comparing the results using random operands ============
+    task test2 (integer num_of_tests);
+        begin
+            wait(test1_done);
+            $display("============ Test #2: comparing the results using random operands ============");
+            $srandom(RND_SEED);
+            for(i = 0; i < num_of_tests; i = i + 1) begin
+                @(posedge clk);
+
+                case($urandom_range(0, 1))
+                    1'b0: begin
+                        op1         = $urandom();
+                        op2         = $urandom();
+                        opcode      = SCR1_IALU_CMD_ADD;
+                        ref_result  = op1 + op2;
+                    end
+                    1'b1: begin
+                        op1         = $urandom();
+                        op2         = $urandom();
+                        opcode      = SCR1_IALU_CMD_SUB;
+                        ref_result  = op1 - op2;
+                    end
+                endcase
+                @(negedge clk); result_compare_handler();
+            end
+            @(posedge clk);
+            test2_done <= 1;
+            $display( "\n\nTest #2 is completed! Total number of errors: %0d\n\n====================================================\nClick the button 'Run All' to continue.\n====================================================\n", error_counter); $stop();
+        end
+    endtask
 
     function void result_error_handler;
         error_counter = error_counter + 1;
