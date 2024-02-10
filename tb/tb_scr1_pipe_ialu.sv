@@ -52,7 +52,7 @@ module tb_scr1_pipe_ialu ();
     parameter PERIOD            = 20;                                                           // Clock period
     parameter NUM_OF_DUMPLINES  = 203;                                                          // Number of tests with reference data values
     parameter NUM_OF_RANDLINES  = 100000;                                                       // Nubmer of tests with random data values
-    parameter RND_SEED          = 322;                                                          // Seed of random generation. Change it to test your devise with different values
+    parameter RND_SEED          = 322;                                                          // Seed of random generation. Change it to test your device with different values
     // ============ Integers ============
     integer i                   = 0;                                                            // Cycle iterator
     integer error_counter       = 0;        
