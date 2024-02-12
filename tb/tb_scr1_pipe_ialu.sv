@@ -34,8 +34,8 @@ module tb_scr1_pipe_ialu ();
     scr1_pipe_ialu DUT(
     .clk                   (clk),                                                               // IALU clock
     .rst_n                 (rst_n),                                                             // IALU reset
-    .exu2ialu_rvm_cmd_vd_i (mdu_opcode_valid),                                                  // MUL/DIV command valid
-    .ialu2exu_rvm_res_rdy_o(mdu_result_ready),                                                  // MUL/DIV result ready
+    .exu2ialu_rvm_cmd_vd_i (),                                                  // MUL/DIV command valid
+    .ialu2exu_rvm_res_rdy_o(),                                                  // MUL/DIV result ready
                                             
     .exu2ialu_main_op1_i   (op1),                                                               // main ALU 1st operand
     .exu2ialu_main_op2_i   (op2),                                                               // main ALU 2nd operand
