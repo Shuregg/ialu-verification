@@ -16,3 +16,6 @@ File: scr1_pipe_ialu.sv
 
 
 Total Coverage By File (code coverage only, filtered view): 24.56%
+
+You can also see an HTML report
+===============================
