@@ -3,7 +3,7 @@ iALU's ADD and SUB operations verification & code coverage
 Coverage Report Summary Data by file
 
 =================================================================================
-=== File: D:/Study/ialu-verification/sv/scr1_pipe_ialu.sv
+=== File: scr1_pipe_ialu.sv
 =================================================================================
     Enabled Coverage              Bins      Hits    Misses  Coverage
     ----------------              ----      ----    ------  --------
