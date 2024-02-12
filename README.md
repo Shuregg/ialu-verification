@@ -2,7 +2,6 @@ iALU's ADD and SUB operations verification & code coverage
 ![report png](https://github.com/Shuregg/ialu-verification/assets/47576452/9a53cfeb-b433-4926-b971-fc28bb2bb558)
 Coverage Report Summary Data by file
 
-================================
 File: scr1_pipe_ialu.sv
 =================================
     Enabled Coverage              Bins      Hits    Misses  Coverage
