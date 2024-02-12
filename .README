@@ -1,0 +1,4 @@
+vlog *.sv
+vsim tb_scr1_pipe_ialu -coverage -suppress 3999 -voptargs="+cover=sb+/tb_scr1_pipe_ialu/DUT" -do "run -a;"
+coverage report -output <your path> -srcfile=* -assert -directive -cvg -codeAll
+coverage report -html -output <your path> -assert -directive -cvg -code bcefst -threshL 50 -threshH 90
