@@ -7,8 +7,8 @@
 module tb_scr1_pipe_ialu ();
     logic                                               clk;
     logic                                               rst_n;
-    logic                                               mdu_opcode_valid;
-    logic                                               mdu_result_ready;
+    // logic                                               mdu_opcode_valid;
+    // logic                                               mdu_result_ready;
     logic                       [`SCR1_XLEN-1:0]        op1;              
     logic                       [`SCR1_XLEN-1:0]        op2;
     type_scr1_ialu_cmd_sel_e                            opcode;
@@ -21,14 +21,14 @@ module tb_scr1_pipe_ialu ();
 
     logic                       [`SCR1_XLEN-1:0]        ref_result;         
 
-    typedef struct {
-        logic                       [`SCR1_XLEN-1:0]    op1;
-        logic                       [`SCR1_XLEN-1:0]    op2;
-        logic                       [`SCR1_XLEN-1:0]    reference_result;
-        type_scr1_ialu_cmd_sel_e                        opcode;
-    } st_data_for_testing;
+    // typedef struct {
+    //     logic                       [`SCR1_XLEN-1:0]    op1;
+    //     logic                       [`SCR1_XLEN-1:0]    op2;
+    //     logic                       [`SCR1_XLEN-1:0]    reference_result;
+    //     type_scr1_ialu_cmd_sel_e                        opcode;
+    // } st_data_for_testing;
 
-    st_data_for_testing data_tmp;
+    // st_data_for_testing data_tmp;
 
     //ALU instance
     scr1_pipe_ialu DUT(
@@ -82,7 +82,7 @@ module tb_scr1_pipe_ialu ();
             test1_done  <= 0;
             test2_done  <= 0;
             rst_n               = 0;
-            mdu_opcode_valid    = 0;
+            // mdu_opcode_valid    = 0;
             #(PERIOD/2); rst_n  = 1;
         end
     endtask
