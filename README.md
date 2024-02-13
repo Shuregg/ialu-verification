@@ -8,5 +8,13 @@ Functional coverage:
 =
 ![fcover png](https://github.com/Shuregg/ialu-verification/assets/47576452/5434d5aa-8cae-4fd3-8590-54aabd3e0543)
 
-Check code_cover_report.txt, func_cover_report.txt, coverage_report_details.txt files
-in "/coverage reports" for more information.
+Check next files for more information:
+code_cover_report.txt[1], 
+func_cover_report.txt[2], 
+general_coverage_report_details.txt[3]
+
+[1] [https://github.com/Shuregg/ialu-verification/blob/develop/coverage%20reports/code_cover_report.txt]
+
+[2] [https://github.com/Shuregg/ialu-verification/blob/develop/coverage%20reports/func_cover_report.txt]
+
+[3] [https://github.com/Shuregg/ialu-verification/blob/develop/coverage%20reports/general_coverage_report_details.txt]
