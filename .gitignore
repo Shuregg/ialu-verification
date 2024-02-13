@@ -13,3 +13,8 @@ elaborate.txt
 *.log
 *.pb
 *.jou
+
+*.cache/**
+*.ip_user_files/**
+*.sim/**
+*.xpr
