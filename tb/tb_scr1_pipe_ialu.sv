@@ -5,6 +5,18 @@
 `timescale 1ns/1ps
 
 module tb_scr1_pipe_ialu ();
+    // ============ Parameters ============
+    parameter PERIOD            = 20;                                                           // Clock period
+    parameter NUM_OF_DUMPLINES  = 203;                                                          // Number of tests with reference data values
+    parameter RND_SEED          = 322;                                                          // Seed of random generation. Change it to test your device with different values
+    parameter MAX_NUM           = ($pow(2, `SCR1_XLEN)-1);                                      // 2 ** (word depth)
+    parameter NUM_OF_RANDLINES  =  MAX_NUM;                                                     // Nubmer of tests with random data values
+
+    // ============ Integers ============
+    integer i                   = 0;                                                            // Cycle iterator
+    integer error_counter       = 0;        
+//    integer max_num             = ($pow(2, `SCR1_XLEN)-1);                                    // 2 ** (word depth) integer
+    // ============ Logic signals ============
     logic                                               clk;
     logic                                               rst_n;
     // logic                                               mdu_opcode_valid;
@@ -13,7 +25,7 @@ module tb_scr1_pipe_ialu ();
     logic                       [`SCR1_XLEN-1:0]        op2;
     type_scr1_ialu_cmd_sel_e                            opcode;
     logic                       [`SCR1_XLEN-1:0]        result;
-//    logic                                               flag;
+    // logic                                               flag;
 
     logic                       [`SCR1_XLEN-1:0]        addr_op1;      
     logic                       [`SCR1_XLEN-1:0]        addr_op2;
@@ -21,21 +33,21 @@ module tb_scr1_pipe_ialu ();
 
     logic                       [`SCR1_XLEN-1:0]        ref_result;         
 
-    // typedef struct {
-    //     logic                       [`SCR1_XLEN-1:0]    op1;
-    //     logic                       [`SCR1_XLEN-1:0]    op2;
-    //     logic                       [`SCR1_XLEN-1:0]    reference_result;
-    //     type_scr1_ialu_cmd_sel_e                        opcode;
-    // } st_data_for_testing;
-
-    // st_data_for_testing data_tmp;
+    logic                                           test1_done;                                 // "Test 1 is completed" Flag
+    logic                                           test2_done;                                 // "Test 2 is completed" Flag
+    logic                       [(7*8)-1:0]         operation_type;                             // Operation string to display
+    // Data arrays for Test #1
+    logic                       [`SCR1_XLEN-1:0]    op1_arr         [0:NUM_OF_DUMPLINES-1];     // Array of first operands
+    logic                       [`SCR1_XLEN-1:0]    op2_arr         [0:NUM_OF_DUMPLINES-1];     // Array of seconds operands
+    logic                       [`SCR1_XLEN-1:0]    ref_result_arr  [0:NUM_OF_DUMPLINES-1];     // Array of expected (reference) result
+    type_scr1_ialu_cmd_sel_e                        opcode_arr      [0:NUM_OF_DUMPLINES-1];     // Array of operation codes
 
     //ALU instance
     scr1_pipe_ialu DUT(
     .clk                   (clk),                                                               // IALU clock
     .rst_n                 (rst_n),                                                             // IALU reset
-    .exu2ialu_rvm_cmd_vd_i (),                                                  // MUL/DIV command valid
-    .ialu2exu_rvm_res_rdy_o(),                                                  // MUL/DIV result ready
+    .exu2ialu_rvm_cmd_vd_i (),                                                                  // MUL/DIV command valid
+    .ialu2exu_rvm_res_rdy_o(),                                                                  // MUL/DIV result ready
                                             
     .exu2ialu_main_op1_i   (op1),                                                               // main ALU 1st operand
     .exu2ialu_main_op2_i   (op2),                                                               // main ALU 2nd operand
@@ -48,26 +60,21 @@ module tb_scr1_pipe_ialu ();
     .ialu2exu_addr_res_o   (addr_result)                                                        // Address adder result
     );                                      
 
-    // ============ Parameters ============
-    parameter PERIOD            = 20;                                                           // Clock period
-    parameter NUM_OF_DUMPLINES  = 203;                                                          // Number of tests with reference data values
-    parameter NUM_OF_RANDLINES  = 100000;                                                       // Nubmer of tests with random data values
-    parameter RND_SEED          = 322;                                                          // Seed of random generation. Change it to test your device with different values
-    // ============ Integers ============
-    integer i                   = 0;                                                            // Cycle iterator
-    integer error_counter       = 0;        
-    // ============ Logic signals ============
-    logic                                           test1_done;                                 // "Test 1 is completed" Flag
-    logic                                           test2_done;                                 // "Test 2 is completed" Flag
-    logic                       [(7*8)-1:0]         operation_type;                             // Operation string to display
-
-
-    // Data arrays for Test #1
-    logic                       [`SCR1_XLEN-1:0]    op1_arr         [0:NUM_OF_DUMPLINES-1];     // Array of first operands
-    logic                       [`SCR1_XLEN-1:0]    op2_arr         [0:NUM_OF_DUMPLINES-1];     // Array of seconds operands
-    logic                       [`SCR1_XLEN-1:0]    ref_result_arr  [0:NUM_OF_DUMPLINES-1];     // Array of expected (reference) result
-    type_scr1_ialu_cmd_sel_e                        opcode_arr      [0:NUM_OF_DUMPLINES-1];     // Array of operation codes
-
+    // ============ Functional coverage ============
+    covergroup cg @(posedge clk);
+        op1_cp:     coverpoint op1 {
+            bins b1 [`SCR1_XLEN] = {[0:32'hFFFF_FFFF]};
+        }
+        op2_cp:     coverpoint op2 {
+            bins b2 [`SCR1_XLEN] = {[0:32'hFFFF_FFFF]};
+        }
+        result_cp:  coverpoint result{
+            bins b3 [`SCR1_XLEN] = {[0:32'hFFFF_FFFF]};
+        }
+    endgroup : cg
+    
+    cg cover_inst = new();
+    
     // ============ Clock init ============
    initial begin
      clk = 1'b0;
