@@ -1,23 +1,11 @@
-iALU's ADD and SUB operations verification & code coverage
-======
-
+iALU's ADD and SUB operations verification and code/functional coverage
+========================================================================
+Code coverage:
+=
 ![report png](https://github.com/Shuregg/ialu-verification/assets/47576452/9a53cfeb-b433-4926-b971-fc28bb2bb558)
-Coverage Report Summary Data by file
 
-File: scr1_pipe_ialu.sv
-=================================
-    Enabled Coverage              Bins      Hits    Misses  Coverage
-    ----------------              ----      ----    ------  --------
-    Branches                       104        31        73    29.80%
-    Conditions                       7         1         6    14.28%
-    Expressions                     70        15        55    21.42%
-    FSM States                       3         1         2    33.33%
-    FSM Transitions                  4         0         4     0.00%
-    Statements                     110        70        40    63.63%
-    Toggles                       4537       429      4108     9.45%
+Functional coverage:
+=
+![fcover png](https://github.com/Shuregg/ialu-verification/assets/47576452/5434d5aa-8cae-4fd3-8590-54aabd3e0543)
 
-
-Total Coverage By File (code coverage only, filtered view): 24.56%
-
-You can also see an HTML report
-===============================
+Check code_cover_report.txt, func_cover_report.txt, coverage_report_details.txt files in "/coverage reports" for more information.
