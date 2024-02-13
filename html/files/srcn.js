@@ -1,2 +1,0 @@
-var g_data = ["","D:/Study/ialu-verification/sv/scr1_arch_description.svh","D:/Study/ialu-verification/sv/scr1_arch_types.svh","D:/Study/ialu-verification/sv/scr1_riscv_isa_decoding.svh","D:/Study/ialu-verification/sv/scr1_search_ms1.svh","D:/Study/ialu-verification/sv/tb_scr1_pipe_ialu.sv","D:/Study/ialu-verification/sv/scr1_pipe_ialu.sv"];
-processSrcNamesData(g_data);
