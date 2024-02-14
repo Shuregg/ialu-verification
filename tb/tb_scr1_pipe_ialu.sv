@@ -9,13 +9,14 @@ module tb_scr1_pipe_ialu ();
     parameter PERIOD            = 20;                                                           // Clock period
     parameter NUM_OF_DUMPLINES  = 203;                                                          // Number of tests with reference data values
     parameter RND_SEED          = 322;                                                          // Seed of random generation. Change it to test your device with different values
-    parameter MAX_NUM           = ($pow(2, `SCR1_XLEN)-1);                                      // 2 ** (word depth)
-    parameter NUM_OF_RANDLINES  =  MAX_NUM;                                                     // Nubmer of tests with random data values
-
+    // parameter MAX_NUM           = ($pow(2, `SCR1_XLEN)-1);                                      // 2 ** (word depth)
+    // parameter NUM_OF_RANDLINES  = (($pow(2, `SCR1_XLEN)));                                      // Nubmer of tests with random data values ~2^13
+            
     // ============ Integers ============
-    integer i                   = 0;                                                            // Cycle iterator
-    integer error_counter       = 0;        
-//    integer max_num             = ($pow(2, `SCR1_XLEN)-1);                                    // 2 ** (word depth) integer
+    integer                 i                   = 0;                                            // Cycle iterator
+    integer                 error_counter       = 0;                                            //
+    longint unsigned        NUM_OF_RANDLINES    = (20000000);                                 // Nubmer of tests with random data values
+   const longint unsigned   num_of_bins         = longint'($pow(2, `SCR1_XLEN));                //
     // ============ Logic signals ============
     logic                                               clk;
     logic                                               rst_n;
@@ -63,13 +64,16 @@ module tb_scr1_pipe_ialu ();
     // ============ Functional coverage ============
     covergroup cg @(posedge clk);
         op1_cp:     coverpoint op1 {
-            bins b1 [`SCR1_XLEN] = {[0:32'hFFFF_FFFF]};
+//            bins b1 [num_of_bins] = {[0:num_of_bins-1]};
+            bins b1 [(1000000)] = {[0:32'hFFFF_FFFF]};
         }
         op2_cp:     coverpoint op2 {
-            bins b2 [`SCR1_XLEN] = {[0:32'hFFFF_FFFF]};
+//            bins b1 [num_of_bins] = {[0:num_of_bins-1]};
+            bins b2 [(1000000)] = {[0:32'hFFFF_FFFF]};
         }
         result_cp:  coverpoint result{
-            bins b3 [`SCR1_XLEN] = {[0:32'hFFFF_FFFF]};
+//            bins b1 [num_of_bins] = {[0:num_of_bins-1]};
+            bins b3 [(1000000)] = {[0:32'hFFFF_FFFF]};
         }
     endgroup : cg
     
@@ -96,9 +100,16 @@ module tb_scr1_pipe_ialu ();
     
     // ============ Timeout ============
     initial begin
-        repeat(300000) @(posedge clk);
+        repeat(20001 000) @(posedge clk);
         $display("Simulation stopped by watchdog timer."); $stop();
     end
+
+    // task watchdog_timer(integer delay_clocks);
+    //     begin
+    //         repeat(delay_clocks) @(posedge clk);
+    //         $display("Simulation stopped by watchdog timer."); $stop();
+    //     end
+    // endtask
 
     // ============ Main initial block ============
     initial begin
