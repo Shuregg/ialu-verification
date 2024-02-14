@@ -12,15 +12,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="5999648500fs"></ZoomStartTime>
-      <ZoomEndTime time="6000070301fs"></ZoomEndTime>
-      <Cursor1Time time="6000000000fs"></Cursor1Time>
+      <ZoomStartTime time="692833fs"></ZoomStartTime>
+      <ZoomEndTime time="1044234fs"></ZoomEndTime>
+      <Cursor1Time time="1000000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="175"></NameColumnWidth>
-      <ValueColumnWidth column_width="163"></ValueColumnWidth>
+      <NameColumnWidth column_width="261"></NameColumnWidth>
+      <ValueColumnWidth column_width="158"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="26" />
+   <WVObjectSize size="23" />
    <wvobject fp_name="/tb_scr1_pipe_ialu/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -28,14 +28,6 @@
    <wvobject fp_name="/tb_scr1_pipe_ialu/rst_n" type="logic">
       <obj_property name="ElementShortName">rst_n</obj_property>
       <obj_property name="ObjectShortName">rst_n</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_scr1_pipe_ialu/mdu_opcode_valid" type="logic">
-      <obj_property name="ElementShortName">mdu_opcode_valid</obj_property>
-      <obj_property name="ObjectShortName">mdu_opcode_valid</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_scr1_pipe_ialu/mdu_result_ready" type="logic">
-      <obj_property name="ElementShortName">mdu_result_ready</obj_property>
-      <obj_property name="ObjectShortName">mdu_result_ready</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_scr1_pipe_ialu/op1" type="array">
       <obj_property name="ElementShortName">op1[31:0]</obj_property>
@@ -73,10 +65,6 @@
       <obj_property name="ElementShortName">addr_result[31:0]</obj_property>
       <obj_property name="ObjectShortName">addr_result[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/tb_scr1_pipe_ialu/data_tmp" type="array">
-      <obj_property name="ElementShortName">data_tmp</obj_property>
-      <obj_property name="ObjectShortName">data_tmp</obj_property>
-   </wvobject>
    <wvobject fp_name="/tb_scr1_pipe_ialu/i" type="array">
       <obj_property name="ElementShortName">i[31:0]</obj_property>
       <obj_property name="ObjectShortName">i[31:0]</obj_property>
@@ -94,9 +82,9 @@
       <obj_property name="ElementShortName">test1_done</obj_property>
       <obj_property name="ObjectShortName">test1_done</obj_property>
    </wvobject>
-   <wvobject fp_name="/tb_scr1_pipe_ialu/all_tests_done" type="logic">
-      <obj_property name="ElementShortName">all_tests_done</obj_property>
-      <obj_property name="ObjectShortName">all_tests_done</obj_property>
+   <wvobject fp_name="/tb_scr1_pipe_ialu/test2_done" type="logic">
+      <obj_property name="ElementShortName">test2_done</obj_property>
+      <obj_property name="ObjectShortName">test2_done</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_scr1_pipe_ialu/operation_type" type="array">
       <obj_property name="ElementShortName">operation_type[55:0]</obj_property>
@@ -122,13 +110,16 @@
    <wvobject fp_name="/tb_scr1_pipe_ialu/PERIOD" type="array">
       <obj_property name="ElementShortName">PERIOD[31:0]</obj_property>
       <obj_property name="ObjectShortName">PERIOD[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_scr1_pipe_ialu/NUM_OF_DUMPLINES" type="array">
       <obj_property name="ElementShortName">NUM_OF_DUMPLINES[31:0]</obj_property>
       <obj_property name="ObjectShortName">NUM_OF_DUMPLINES[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_scr1_pipe_ialu/NUM_OF_RANDLINES" type="array">
       <obj_property name="ElementShortName">NUM_OF_RANDLINES[31:0]</obj_property>
       <obj_property name="ObjectShortName">NUM_OF_RANDLINES[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
 </wave_config>
