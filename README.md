@@ -13,8 +13,8 @@ code_cover_report.txt[1],
 func_cover_report.txt[2], 
 general_coverage_report_details.txt[3]
 
-[1] [https://github.com/Shuregg/ialu-verification/blob/develop/coverage%20reports/code_cover_report.txt]
+[1] [https://github.com/Shuregg/ialu-verification/blob/develop/coverage_reports/code_cover_report.txt]
 
-[2] [https://github.com/Shuregg/ialu-verification/blob/develop/coverage%20reports/func_cover_report.txt]
+[2] [https://github.com/Shuregg/ialu-verification/blob/develop/coverage_reports/func_cover_report.txt]
 
-[3] [https://github.com/Shuregg/ialu-verification/blob/develop/coverage%20reports/general_coverage_report_details.txt]
+[3] [https://github.com/Shuregg/ialu-verification/blob/develop/coverage_reports/general_coverage_report_details.txt]
