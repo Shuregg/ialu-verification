@@ -18,13 +18,10 @@ module tb_scr1_pipe_ialu ();
     // ============ Logic signals ============
     logic                                               clk;
     logic                                               rst_n;
-    // logic                                               mdu_opcode_valid;
-    // logic                                               mdu_result_ready;
     logic                       [`SCR1_XLEN-1:0]        op1;              
     logic                       [`SCR1_XLEN-1:0]        op2;
     type_scr1_ialu_cmd_sel_e                            opcode;
     logic                       [`SCR1_XLEN-1:0]        result;
-    // logic                                               flag;
 
     logic                       [`SCR1_XLEN-1:0]        addr_op1;      
     logic                       [`SCR1_XLEN-1:0]        addr_op2;
@@ -62,15 +59,12 @@ module tb_scr1_pipe_ialu ();
     // ============ Functional coverage ============
     covergroup cg @(posedge clk);
         op1_cp:     coverpoint op1 {
-//            bins b1 [num_of_bins] = {[0:num_of_bins-1]};
             bins b1 [(1000000)] = {[0:32'hFFFF_FFFF]};
         }
         op2_cp:     coverpoint op2 {
-//            bins b1 [num_of_bins] = {[0:num_of_bins-1]};
             bins b2 [(1000000)] = {[0:32'hFFFF_FFFF]};
         }
         result_cp:  coverpoint result{
-//            bins b1 [num_of_bins] = {[0:num_of_bins-1]};
             bins b3 [(1000000)] = {[0:32'hFFFF_FFFF]};
         }
     endgroup : cg
@@ -101,13 +95,6 @@ module tb_scr1_pipe_ialu ();
         repeat(20001 000) @(posedge clk);
         $display("Simulation stopped by watchdog timer."); $stop();
     end
-
-    // task watchdog_timer(integer delay_clocks);
-    //     begin
-    //         repeat(delay_clocks) @(posedge clk);
-    //         $display("Simulation stopped by watchdog timer."); $stop();
-    //     end
-    // endtask
 
     // ============ Main initial block ============
     initial begin
