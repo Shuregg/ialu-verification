@@ -6,11 +6,9 @@
 
 module tb_scr1_pipe_ialu ();
     // ============ Parameters ============
-    parameter PERIOD            = 20;                                                           // Clock period
-    parameter NUM_OF_DUMPLINES  = 203;                                                          // Number of tests with reference data values
-    parameter RND_SEED          = 322;                                                          // Seed of random generation. Change it to test your device with different values
-    // parameter MAX_NUM           = ($pow(2, `SCR1_XLEN)-1);                                      // 2 ** (word depth)
-    // parameter NUM_OF_RANDLINES  = (($pow(2, `SCR1_XLEN)));                                      // Nubmer of tests with random data values ~2^13
+    localparam PERIOD            = 20;                                                           // Clock period
+    localparam NUM_OF_DUMPLINES  = 203;                                                          // Number of tests with reference data values
+    localparam RND_SEED          = 322;                                                          // Seed of random generation. Change it to test your device with different values
             
     // ============ Integers ============
     integer                 i                   = 0;                                            // Cycle iterator
