@@ -1,4 +1,4 @@
-`include "scr1_arch_description.svh"
+    `include "scr1_arch_description.svh"
 `include "scr1_riscv_isa_decoding.svh"
 `include "scr1_search_ms1.svh"
 
@@ -16,22 +16,22 @@ module tb_scr1_pipe_ialu ();
     longint unsigned        NUM_OF_RANDLINES    = (20000000);                                 // Nubmer of tests with random data values
    const longint unsigned   num_of_bins         = longint'($pow(2, `SCR1_XLEN));                //
     // ============ Logic signals ============
-    logic                                               clk;
-    logic                                               rst_n;
-    logic                       [`SCR1_XLEN-1:0]        op1;              
-    logic                       [`SCR1_XLEN-1:0]        op2;
-    type_scr1_ialu_cmd_sel_e                            opcode;
-    logic                       [`SCR1_XLEN-1:0]        result;
+    logic                                           clk;
+    logic                                           rst_n;
+    logic                       [`SCR1_XLEN-1:0]    op1;              
+    logic                       [`SCR1_XLEN-1:0]    op2;
+    type_scr1_ialu_cmd_sel_e                        opcode;
+    logic                       [`SCR1_XLEN-1:0]    result;
 
-    logic                       [`SCR1_XLEN-1:0]        addr_op1;      
-    logic                       [`SCR1_XLEN-1:0]        addr_op2;
-    logic                       [`SCR1_XLEN-1:0]        addr_result;
+    logic                       [`SCR1_XLEN-1:0]    addr_op1;      
+    logic                       [`SCR1_XLEN-1:0]    addr_op2;
+    logic                       [`SCR1_XLEN-1:0]    addr_result;
 
-    logic                       [`SCR1_XLEN-1:0]        ref_result;         
+    logic                       [`SCR1_XLEN-1:0]    ref_result;         
 
     logic                                           test1_done;                                 // "Test 1 is completed" Flag
     logic                                           test2_done;                                 // "Test 2 is completed" Flag
-    logic                       [(7*8)-1:0]         operation_type;                             // Operation string to display
+    string                                          operation_type;                             // Operation string to display
     // Data arrays for Test #1
     logic                       [`SCR1_XLEN-1:0]    op1_arr         [0:NUM_OF_DUMPLINES-1];     // Array of first operands
     logic                       [`SCR1_XLEN-1:0]    op2_arr         [0:NUM_OF_DUMPLINES-1];     // Array of seconds operands
